@@ -10,7 +10,7 @@ interface Props {
 
 export function RainbowKitProvider({ children }: Props) {
   return (
-    <RainbowKitProviderImported chains={chains}>
+    <RainbowKitProviderImported chains={chains} modalSize="compact">
       {children}
     </RainbowKitProviderImported>
   )

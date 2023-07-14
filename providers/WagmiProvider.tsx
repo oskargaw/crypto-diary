@@ -1,4 +1,8 @@
-import { getDefaultWallets } from "@rainbow-me/rainbowkit"
+import { connectorsForWallets } from "@rainbow-me/rainbowkit"
+import {
+  metaMaskWallet,
+  walletConnectWallet,
+} from "@rainbow-me/rainbowkit/wallets"
 import { configureChains, createConfig, WagmiConfig } from "wagmi"
 import {
   avalanche,
@@ -17,11 +21,19 @@ const { chains, publicClient } = configureChains(
   [mainnet, polygon, polygonMumbai, avalanche, avalancheFuji],
   [publicProvider()]
 )
-const { connectors } = getDefaultWallets({
-  appName: "Crypto Diary",
-  projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
-  chains,
-})
+
+const connectors = connectorsForWallets([
+  {
+    groupName: "Recommended",
+    wallets: [
+      metaMaskWallet({ projectId: "Crypto Diary", chains }),
+      walletConnectWallet({
+        projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID!,
+        chains,
+      }),
+    ],
+  },
+])
 
 const wagmiConfig = createConfig({
   autoConnect: true,
