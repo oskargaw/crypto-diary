@@ -1,25 +1,60 @@
 import { EvmChain } from "@moralisweb3/common-evm-utils"
+import dayjs from "dayjs"
 import { formatUnits } from "viem"
 
+import { startMoralis } from "@/lib/moralis"
 import {
   getBinanceWalletBalances,
   getDecentralizedWalletBalances,
 } from "@/actions/getWalletBalances"
-import { startMoralis } from "@/lib/moralis"
+import { getDecentralizedWalletTransfers } from "@/actions/getWalletTransfers"
 
 interface Params {
   walletAddress: string
 }
 
 export default async function Dashboard({ params }: { params: Params }) {
+  // Config
   startMoralis()
 
+  // Fetching
   const decentralizedWalletBalances = await getDecentralizedWalletBalances(
     params.walletAddress,
     EvmChain.ETHEREUM
   )
 
   const binanceWalletBalances = await getBinanceWalletBalances()
+
+  const decentralizedWalletTransfers = await getDecentralizedWalletTransfers(
+    params.walletAddress,
+    EvmChain.ETHEREUM
+  )
+
+  // Constants
+  const transfersBuy = decentralizedWalletTransfers?.filter(
+    ({ to_address }) =>
+      to_address.toLowerCase() === params.walletAddress.toLowerCase()
+  )
+
+  const transfersSell = decentralizedWalletTransfers?.filter(
+    ({ from_address }) =>
+      from_address.toLowerCase() === params.walletAddress.toLowerCase()
+  )
+
+  // Helpers
+  const renderTransfers = (transfers: typeof decentralizedWalletTransfers) =>
+    transfers?.map(
+      ({ token_name, token_symbol, block_timestamp, value_decimal }) => (
+        <>
+          <div>Name: {token_name}</div>
+          <div>Symbol: {token_symbol}</div>
+          <div>
+            Date: {dayjs(block_timestamp).format("YYYY-MM-DD HH:mm:ss")}
+          </div>
+          <div>Amount: {value_decimal as string}</div>
+        </>
+      )
+    )
 
   return (
     <div>
@@ -41,6 +76,12 @@ export default async function Dashboard({ params }: { params: Params }) {
           <div key={asset}>{`${asset} ${free}`}</div>
         ))}
       </div>
+
+      <div>Buys:</div>
+      <div>{renderTransfers(transfersBuy)}</div>
+
+      <div>Sells:</div>
+      <div>{renderTransfers(transfersSell)}</div>
     </div>
   )
 }

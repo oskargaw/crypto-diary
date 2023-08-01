@@ -1,7 +1,5 @@
 import { RainbowKitProvider as RainbowKitProviderImported } from "@rainbow-me/rainbowkit"
 
-import "@rainbow-me/rainbowkit/styles.css"
-
 import { chains } from "./WagmiProvider"
 
 interface Props {

@@ -3,13 +3,13 @@
 import { EvmChain } from "@moralisweb3/common-evm-utils"
 import Moralis from "moralis"
 
-import { isGreaterThanZero } from "@/helpers/numbers"
 import { binanceClient } from "@/lib/binance"
+import { isGreaterThanZero } from "@/helpers/numbers"
 
-export async function getDecentralizedWalletBalances(
+export const getDecentralizedWalletBalances = async (
   address: string,
   chain: EvmChain
-) {
+) => {
   try {
     const walletBalances = await Moralis.EvmApi.token.getWalletTokenBalances({
       address,
@@ -18,11 +18,11 @@ export async function getDecentralizedWalletBalances(
 
     return walletBalances.raw
   } catch (error: any) {
-    console.log(error)
+    console.error(error)
   }
 }
 
-export async function getBinanceWalletBalances() {
+export const getBinanceWalletBalances = async () => {
   try {
     const accountInfo = await binanceClient.accountInfo()
 
@@ -34,6 +34,6 @@ export async function getBinanceWalletBalances() {
 
     return walletBalancesGreaterThanZero
   } catch (error: any) {
-    console.log(error)
+    console.error(error)
   }
 }
