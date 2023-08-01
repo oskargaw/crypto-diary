@@ -3,6 +3,8 @@ import dayjs from "dayjs"
 import { formatUnits } from "viem"
 
 import { startMoralis } from "@/lib/moralis"
+import { multiplyBigNumbers } from "@/helpers/numbers"
+import { getTokenPrice } from "@/actions/getTokenPrice"
 import {
   getBinanceWalletBalances,
   getDecentralizedWalletBalances,
@@ -42,9 +44,35 @@ export default async function Dashboard({ params }: { params: Params }) {
   )
 
   // Helpers
+  const calculateTokenValue = async (
+    address: string,
+    valueWithDecimals: string,
+    blockNumber: string
+  ) => {
+    const tokenPrice = await getTokenPrice(
+      address,
+      EvmChain.ETHEREUM,
+      blockNumber
+    )
+
+    const tokenValue = multiplyBigNumbers(
+      valueWithDecimals,
+      tokenPrice?.toString() ?? "0"
+    )
+
+    return tokenValue
+  }
+
   const renderTransfers = (transfers: typeof decentralizedWalletTransfers) =>
     transfers?.map(
-      ({ token_name, token_symbol, block_timestamp, value_decimal }) => (
+      ({
+        address,
+        token_name,
+        token_symbol,
+        block_number,
+        block_timestamp,
+        value_decimal,
+      }) => (
         <>
           <div>Name: {token_name}</div>
           <div>Symbol: {token_symbol}</div>
@@ -52,6 +80,14 @@ export default async function Dashboard({ params }: { params: Params }) {
             Date: {dayjs(block_timestamp).format("YYYY-MM-DD HH:mm:ss")}
           </div>
           <div>Amount: {value_decimal as string}</div>
+          <div>
+            Price:{" "}
+            {calculateTokenValue(
+              address,
+              value_decimal as string,
+              block_number
+            )}
+          </div>
         </>
       )
     )
