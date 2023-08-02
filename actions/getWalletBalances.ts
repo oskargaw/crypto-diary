@@ -6,6 +6,10 @@ import Moralis from "moralis"
 import { binanceClient } from "@/lib/binance"
 import { isGreaterThanZero } from "@/helpers/numbers"
 
+export type DecentralizedWalletBalance = Awaited<
+  ReturnType<typeof getDecentralizedWalletBalances>
+>
+
 export const getDecentralizedWalletBalances = async (
   address: string,
   chain: EvmChain

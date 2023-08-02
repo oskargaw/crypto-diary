@@ -11,6 +11,8 @@ import {
 } from "@/actions/getWalletBalances"
 import { getDecentralizedWalletTransfers } from "@/actions/getWalletTransfers"
 
+import { TokenListCard } from "@/components/TokenListCard"
+
 interface Params {
   walletAddress: string
 }
@@ -94,17 +96,10 @@ export default async function Dashboard({ params }: { params: Params }) {
 
   return (
     <div>
-      <div>Decentralized:</div>
-      <div>
-        {decentralizedWalletBalances?.map(
-          ({ name, balance, decimals, token_address }) => (
-            <div key={token_address}>{`${name}: ${formatUnits(
-              BigInt(balance),
-              decimals
-            )}`}</div>
-          )
-        )}
-      </div>
+      <TokenListCard
+        title="Decentralized"
+        tokenList={decentralizedWalletBalances}
+      />
 
       <div>Binance:</div>
       <div>
