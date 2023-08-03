@@ -10,6 +10,10 @@ export type DecentralizedWalletBalance = Awaited<
   ReturnType<typeof getDecentralizedWalletBalances>
 >
 
+export type BinanceWalletBalance = Awaited<
+  ReturnType<typeof getBinanceWalletBalances>
+>
+
 export const getDecentralizedWalletBalances = async (
   address: string,
   chain: EvmChain

@@ -95,14 +95,10 @@ export default async function Dashboard({ params }: { params: Params }) {
 
   return (
     <div className="flex h-screen w-screen justify-end p-10">
-      <TokenBalancesCard tokenList={decentralizedWalletBalances} />
-
-      <div>Binance:</div>
-      <div>
-        {binanceWalletBalances?.map(({ asset, free }) => (
-          <div key={asset}>{`${asset} ${free}`}</div>
-        ))}
-      </div>
+      <TokenBalancesCard
+        centralizedTokenBalances={binanceWalletBalances}
+        decentralizedTokenBalances={decentralizedWalletBalances}
+      />
 
       <div>Buys:</div>
       <div>{renderTransfers(transfersBuy)}</div>

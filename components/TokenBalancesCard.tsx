@@ -1,4 +1,7 @@
-import { DecentralizedWalletBalance } from "@/actions/getWalletBalances"
+import {
+  BinanceWalletBalance,
+  DecentralizedWalletBalance,
+} from "@/actions/getWalletBalances"
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/Tabs"
 
@@ -7,13 +10,17 @@ import { Button } from "./ui/Button"
 import { Card, CardContent, CardFooter, CardHeader } from "./ui/Card"
 
 interface Props {
-  tokenList: DecentralizedWalletBalance
+  centralizedTokenBalances: BinanceWalletBalance
+  decentralizedTokenBalances: DecentralizedWalletBalance
 }
 
-const TAB_ID_DECENTRALIZED = "decentralized"
 const TAB_ID_CENTRALIZED = "centralized"
+const TAB_ID_DECENTRALIZED = "decentralized"
 
-export function TokenBalancesCard({ tokenList }: Props) {
+export function TokenBalancesCard({
+  centralizedTokenBalances,
+  decentralizedTokenBalances,
+}: Props) {
   return (
     <Card className="h-fit w-[500px]">
       <Tabs defaultValue={TAB_ID_DECENTRALIZED}>
@@ -28,13 +35,15 @@ export function TokenBalancesCard({ tokenList }: Props) {
 
         <TabsContent value={TAB_ID_DECENTRALIZED}>
           <CardContent className="max-h-[50vh]">
-            <TokenList tokenList={tokenList} />
+            <TokenList
+              decentralizedTokenBalances={decentralizedTokenBalances}
+            />
           </CardContent>
         </TabsContent>
 
         <TabsContent value={TAB_ID_CENTRALIZED}>
           <CardContent className="max-h-[50vh]">
-            <TokenList tokenList={tokenList} />
+            <TokenList centralizedTokenBalances={centralizedTokenBalances} />
           </CardContent>
         </TabsContent>
 
