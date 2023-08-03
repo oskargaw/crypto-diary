@@ -9,7 +9,7 @@ const Card = React.forwardRef<
   <div
     ref={ref}
     className={cn(
-      "rounded-3xl border bg-gradient-to-tr from-zinc-900 via-zinc-800 to-zinc-700 px-5 py-6 shadow-lg",
+      "rounded-3xl bg-gradient-to-tr from-zinc-900 via-zinc-800 to-zinc-700 p-10 shadow-xl",
       className
     )}
     {...props}
@@ -21,11 +21,7 @@ const CardHeader = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("mb-3 flex flex-col p-6", className)}
-    {...props}
-  />
+  <div ref={ref} className={cn("mb-8 flex", className)} {...props} />
 ))
 CardHeader.displayName = "CardHeader"
 
@@ -48,11 +44,7 @@ const CardContent = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("overflow-scroll p-6 pt-0", className)}
-    {...props}
-  />
+  <div ref={ref} className={cn("overflow-scroll", className)} {...props} />
 ))
 CardContent.displayName = "CardContent"
 
@@ -62,7 +54,7 @@ const CardFooter = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("mt-12 flex items-center justify-center p-6 pt-0", className)}
+    className={cn("mt-12 flex items-center justify-center", className)}
     {...props}
   />
 ))

@@ -1,6 +1,5 @@
 import { EvmChain } from "@moralisweb3/common-evm-utils"
 import dayjs from "dayjs"
-import { formatUnits } from "viem"
 
 import { startMoralis } from "@/lib/moralis"
 import { multiplyBigNumbers } from "@/helpers/numbers"
@@ -11,7 +10,7 @@ import {
 } from "@/actions/getWalletBalances"
 import { getDecentralizedWalletTransfers } from "@/actions/getWalletTransfers"
 
-import { TokenListCard } from "@/components/TokenListCard"
+import { TokenBalancesCard } from "@/components/TokenBalancesCard"
 
 interface Params {
   walletAddress: string
@@ -95,11 +94,8 @@ export default async function Dashboard({ params }: { params: Params }) {
     )
 
   return (
-    <div>
-      <TokenListCard
-        title="Decentralized"
-        tokenList={decentralizedWalletBalances}
-      />
+    <div className="flex h-screen w-screen justify-end p-10">
+      <TokenBalancesCard tokenList={decentralizedWalletBalances} />
 
       <div>Binance:</div>
       <div>
